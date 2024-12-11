@@ -1,0 +1,49 @@
+<div class="streamview-activity">
+    <div class="streamview-activity-cover-placeholder">
+        {{#coverimage}}
+            <img src="{{{coverimage}}}" alt="{{name}}" class="activity-cover-image">
+        {{/coverimage}}
+        {{^coverimage}}
+            <div class="placeholder-box">Image Placeholder</div>
+        {{/coverimage}}
+    </div>
+    <a href="{{{url}}}" class="streamview-activity-content">
+        <div class="streamview-activity-icon">
+            <img class="icon iconlarge" src="{{{icon}}}" alt="{{name}}" title="{{name}}">
+        </div>
+        <div class="streamview-activity-name">{{name}}</div>
+    </a>
+    <div class="streamview-activity-actions">
+        {{#actions}}
+        <a href="{{{url}}}" class="streamview-edit-action">
+            {{{icon}}}
+        </a>
+        {{/actions}}
+    </div>
+</div>
+
+<style>
+.streamview-activity-cover-placeholder {
+    width: 100%;
+    height: 150px;
+    background-color: #f0f0f0;
+    margin-bottom: 10px;
+    border: 2px dashed #ccc;
+}
+
+.placeholder-box {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-style: italic;
+}
+
+.activity-cover-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+</style> 

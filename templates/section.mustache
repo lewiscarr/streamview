@@ -1,0 +1,22 @@
+<div id="section-{{section.section}}" class="streamview-topic">
+    <h3 class="streamview-topic-title">{{section.name}}</h3>
+    <div class="streamview-activities-container">
+        <div class="streamview-activities streamview-grid">
+            {{#activities}}
+                <div class="streamview-activity">
+                    <a href="{{{url}}}" class="streamview-activity-content">
+                        <div class="streamview-activity-icon">{{{icon}}}</div>
+                        <div class="streamview-activity-name">{{{name}}}</div>
+                    </a>
+                    <div class="streamview-activity-actions">
+                        {{#actions}}
+                            <a href="{{{url}}}" class="streamview-edit-action">
+                                {{{icon}}}
+                            </a>
+                        {{/actions}}
+                    </div>
+                </div>
+            {{/activities}}
+        </div>
+    </div>
+</div>

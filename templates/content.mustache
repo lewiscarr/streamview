@@ -1,0 +1,268 @@
+<div id="{{uniqueId}}" class="streamview-topics">
+    {{#sections}}
+        <div class="streamview-topic" data-sectionid="{{id}}">
+            {{#hascontrol}}
+            <div class="section-control">
+                {{{controlmenu}}}
+            </div>
+            {{/hascontrol}}
+            <h3 class="streamview-topic-title">{{title}}</h3>
+            
+            {{#hasmanageactivities}}
+            <div class="section-modchooser">
+                {{{addnewactivity}}}
+            </div>
+            {{/hasmanageactivities}}
+            
+            <div class="streamview-activities-container">
+                <button class="streamview-scroll-button left" aria-label="Scroll left">&lt;</button>
+                <div class="streamview-activities">
+                    {{#activities}}
+                        <div class="streamview-activity">
+                            {{#completion.tracking}}
+                            <div class="streamview-completion-status {{completion.overallclass}}">
+                                {{#completion.isManual}}
+                                <form method="post" action="{{{config.wwwroot}}}/course/togglecompletion.php" class="togglecompletion">
+                                    <input type="hidden" name="id" value="{{completion.cmid}}">
+                                    <input type="hidden" name="sesskey" value="{{config.sesskey}}">
+                                    <button type="submit" class="btn-completion" title="{{#str}}togglecompletion, completion{{/str}}">
+                                        {{#completion.state}}
+                                            <span class="completion-badge">✓ Complete</span>
+                                        {{/completion.state}}
+                                        {{^completion.state}}
+                                            <span class="completion-badge">Mark as complete</span>
+                                        {{/completion.state}}
+                                    </button>
+                                </form>
+                                {{/completion.isManual}}
+                                {{#completion.isAutomatic}}
+                                    {{#completion.state}}
+                                        <span class="completion-badge automatic">✓ Complete</span>
+                                    {{/completion.state}}
+                                    {{^completion.state}}
+                                        <span class="completion-badge automatic">Access</span>
+                                    {{/completion.state}}
+                                {{/completion.isAutomatic}}
+                            </div>
+                            {{/completion.tracking}}
+                            <a href="{{url}}" class="streamview-activity-link">
+                                <div class="streamview-activity-cover{{^coverimage}} no-image{{/coverimage}}" 
+                                    {{#coverimage}}style="background-image: url('{{{coverimage}}}')"{{/coverimage}}>
+                                </div>
+                                <div class="streamview-activity-content{{#editing}} with-actions{{/editing}}">
+                                    <div class="streamview-activity-name">{{name}}</div>
+                                </div>
+                            </a>
+                            {{#editing}}
+                            <div class="streamview-activity-actions">
+                                {{#editing}}
+                                    <a href="{{url}}" class="streamview-edit-action" title="{{name}}">
+                                        {{#pix}}{{icon}}, core{{/pix}}
+                                    </a>
+                                {{/editing}}
+                            </div>
+                            {{/editing}}
+                        </div>
+                    {{/activities}}
+                </div>
+                <button class="streamview-scroll-button right" aria-label="Scroll right">&gt;</button>
+            </div>
+        </div>
+    {{/sections}}
+    
+    {{#numsections}}
+    <div class="course-addsection">
+        <div class="mdl-left">
+            <a href="{{{addnewsectionurl}}}" class="btn btn-secondary">{{#str}}addnewsection, format_streamview{{/str}}</a>
+        </div>
+    </div>
+    {{/numsections}}
+</div>
+
+<style>
+.streamview-activity {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    min-height: 300px;
+    width: 200px;
+    margin: 10px;
+    background-color: #f5f5f5;
+}
+
+.streamview-activity-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.streamview-activity-cover {
+    width: 100%;
+    height: 250px;
+    background-color: #ffffff;
+    background-size: cover;
+    background-position: center;
+}
+
+.streamview-activity-cover.no-image {
+    background-color: #f5f5f5;
+}
+
+.streamview-activity-content {
+    padding: 15px;
+    background: #fff;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+.streamview-activity-content.with-actions {
+    bottom: 45px;
+}
+
+.streamview-activity-name {
+    font-weight: bold;
+    margin-top: 5px;
+    color: #333;
+    padding-bottom: 5px;
+    text-align: left;
+}
+
+.streamview-activity:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}
+
+.streamview-activity-actions {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    z-index: 2;
+    min-height: 45px;
+    border-top: 1px solid #eee;
+}
+
+.streamview-edit-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 4px;
+    padding: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.streamview-edit-action:hover {
+    background: #f0f0f0;
+    transform: translateY(-1px);
+    transition: all 0.2s ease;
+}
+
+.streamview-completion-status {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 3;
+}
+
+.completion-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    font-size: 0.9em;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.completion-complete .completion-badge,
+.completion-badge.automatic {
+    background: rgba(40, 167, 69, 0.9);
+    color: white;
+}
+
+.completion-incomplete .completion-badge {
+    background: rgba(255, 255, 255, 0.9);
+    color: #666;
+}
+
+.btn-completion {
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+/* Activity chooser button styles */
+.section-modchooser {
+    margin: 10px 0;
+}
+
+.section-modchooser-link {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #0f6fc5;
+    color: white !important;
+    border-radius: 4px;
+    text-decoration: none !important;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+.section-modchooser-link:hover {
+    background: #0c5aa3;
+    text-decoration: none;
+}
+
+/* Scroll buttons */
+.streamview-activities-container {
+    position: relative;
+}
+
+.streamview-activities {
+    display: flex;
+    overflow-x: auto;
+    padding: 10px 40px;
+    scroll-behavior: smooth;
+}
+
+.streamview-scroll-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.9);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    cursor: pointer;
+    z-index: 2;
+}
+
+.streamview-scroll-button.left {
+    left: 0;
+}
+
+.streamview-scroll-button.right {
+    right: 0;
+}
+</style>
+
+{{#js}}
+require(['core_course/actions'], function(Actions) {
+    Actions.initAddResources();
+});
+{{/js}}
